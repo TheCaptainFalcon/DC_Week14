@@ -1,0 +1,3 @@
+This week is dedicated for my Solo React Project
+
+iBudget - A calculator for budgetting...
