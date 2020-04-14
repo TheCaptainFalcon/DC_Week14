@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/Calculator.css';
 
-class Calculator2 extends Component {
+class Calculator extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -10,7 +10,9 @@ class Calculator2 extends Component {
         ],
         expense: [
             { Name:'', Description:'', Frequency:'', Amount:''}
-        ]
+        ],
+        incomeTotal: 0,
+        expenseTotal: 0
       };
     }
     
@@ -33,97 +35,107 @@ class Calculator2 extends Component {
     }
 
     // Either need to assign as state separate from whole data set or implement within
-    handleExpenseFrequency(e){
-        this.setState(prevState => (
-             { expense: [...prevState.expense, { Frequency:e.target.value} ] }
-        ))}
+    // handleExpenseFrequency(){
+    //     this.setState(prevState => (
+    //          { expense: [...prevState.expense, { Frequency:'' }]}
+    //     ))
+    // }
     
     incomeForm(){
        return this.state.income.map((element, index) => (
-         <div key={index}>
-            <label>Name
+         <div className="Calculator-income" key={index}>
+            <fieldset>
+                <legend>{index}</legend>
+                <label>Name    
+                    <input 
+                    type="text"
+                    name="Name" 
+                    placeholder="Name" 
+                    value={element.Name ||''} 
+                    onChange={this.handleIncomeChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Description
+                    <input 
+                    type="text"
+                    name="Description" 
+                    placeholder="Description" 
+                    value={element.Description ||''} 
+                    onChange={this.handleIncomeChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Frequency
+                    <input 
+                    placeholder="Frequency" 
+                    name="Frequency" 
+                    value={element.Frequency ||''} 
+                    onChange={this.handleIncomeChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Amount
+                    <input 
+                    type="number"
+                    name="Amount" 
+                    placeholder="$" 
+                    value={element.Amount ||''} 
+                    onChange={this.handleIncomeChange.bind(this, index)} 
+                    />
+                </label>
                 <input 
-                type="text"
-                name="Name" 
-                placeholder="Name" 
-                value={element.Name ||''} 
-                onChange={this.handleIncomeChange.bind(this, index)} 
+                type='button' 
+                value='-' 
+                onClick={this.handleRemoveIncome.bind(this, index)}
                 />
-            </label>
-            <label>Description
-                <input 
-                type="text"
-                name="Description" 
-                placeholder="Description" 
-                value={element.Description ||''} 
-                onChange={this.handleIncomeChange.bind(this, index)} 
-                />
-            </label>
-            <label>Frequency
-                <input 
-                placeholder="Frequency" 
-
-                name="Frequency" 
-                value={element.Frequency ||''} 
-                onChange={this.handleIncomeChange.bind(this, index)} 
-                />
-            </label>
-            <label>Amount
-                <input 
-                type="number"
-                name="Amount" 
-                placeholder="$" 
-                value={element.Amount ||''} 
-                onChange={this.handleIncomeChange.bind(this, index)} 
-                />
-            </label>
-            <input 
-            type='button' 
-            value='-' 
-            onClick={this.handleRemoveIncome.bind(this, index)}
-            />
-         </div>          
-       ))
+                </fieldset>
+            </div>          
+        ))
     }
     expenseForm(){
        return this.state.expense.map((element, index) => (
          <div key={index}>
-             <label>Name
-            <input 
-                type="text"
-                name="Name"
-                placeholder="Name"  
-                value={element.Name ||''} 
-                onChange={this.handleExpenseChange.bind(this, index)} 
-                />
-            </label>
-            <label>Description
+            <fieldset>
+                <legend>{index}</legend>
+                <label>Name
                 <input 
-                type='text'
-                name="Description" 
-                placeholder="Description" 
-                value={element.Description ||''} 
-                onChange={this.handleExpenseChange.bind(this, index)} 
-                />
-            </label>
-            <label>Frequency
-                <select onChange={this.handleExpenseFrequency.bind(this)} >
-                    <option value='30'>Daily</option>
-                    <option value='4'>Weekly</option>
-                    
-                </select>
-                {/* value={element.Frequency ||''}  */}    
-            </label>
-            <label>Amount
-                <input 
-                type="number"
-                name="Amount" 
-                placeholder="$" 
-                value={element.Amount ||''} 
-                onChange={this.handleExpenseChange.bind(this, index)} 
-                />
-            </label>
-            <input type='button' value='-' onClick={this.handleRemoveExpense.bind(this, index)}/>
+                    type="text"
+                    name="Name"
+                    placeholder="Name"  
+                    value={element.Name ||''} 
+                    onChange={this.handleExpenseChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Description
+                    <input 
+                    type='text'
+                    name="Description" 
+                    placeholder="Description" 
+                    value={element.Description ||''} 
+                    onChange={this.handleExpenseChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Frequency
+                    {/* <select onChange={this.handleExpenseChange.bind(this, index)}>
+                        <option value='daily'>Daily</option>
+                        <option value='weekly'>Weekly</option>
+                    </select> */}
+                    <input 
+                    placeholder="Frequency" 
+                    name="Frequency" 
+                    value={element.Frequency ||''} 
+                    onChange={this.handleExpenseChange.bind(this, index)} 
+                    />
+                </label>
+                <label>Amount
+                    <input 
+                    type="number"
+                    name="Amount" 
+                    placeholder="$" 
+                    value={element.Amount ||''} 
+                    onChange={this.handleExpenseChange.bind(this, index)} 
+                    />
+                </label>
+                <input type='button' value='-' onClick={this.handleRemoveExpense.bind(this, index)}/>
+            </fieldset>
          </div>          
        ))
     }
@@ -133,12 +145,16 @@ class Calculator2 extends Component {
         let income = [...this.state.income];
         income[i] = {...income[i], [name]: value};
         this.setState({ income });
+        //dev test
+        console.log(this.state.income)
     }
     handleExpenseChange(i, e) {
         const { name, value } = e.target;
         let expense = [...this.state.expense];
         expense[i] = {...expense[i], [name]: value};
         this.setState({ expense });
+        //dev test
+        console.log(this.state.income)
     }
     
     handleRemoveIncome(i){
@@ -154,13 +170,29 @@ class Calculator2 extends Component {
     
     handleSubmit(event) {
         event.preventDefault();
-        alert('Income was submitted: ' + JSON.stringify(this.state.income));
-        alert('Expense was submitted: ' + JSON.stringify(this.state.expense));
+        // let total = 0;
+        let total = this.state.income;
+        let totalValue = total.forEach(item => {
+            total += parseInt(item.Amount);
+            // dev test
+            console.log(this.state.total)
+            console.log(total)
+            
+            
+        })
+        console.log('Income was submitted: ' + JSON.stringify(this.state.income));
+        // console.log(Object.values(this.state.income))
+        console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
     };
   
     render() {
       return (
         <div className='Calculator'>
+            <div className='Calculator-summary'>
+                
+                <p>{this.state.total}</p>
+                <p>{this.state.incomeTotal}</p>
+            </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className='Calculator-income'>
                     <h2>Income</h2>
@@ -179,4 +211,4 @@ class Calculator2 extends Component {
     }
   }
   
-export default Calculator2;
+export default Calculator;

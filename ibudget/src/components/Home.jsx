@@ -12,7 +12,7 @@ class Home extends Component {
             <div className='Home'>
                 <h1>iBudget</h1>
                 <h2>A simple solution for calculating your income to expense ratios</h2>
-                <img src={stonks}/>
+                <img src={stonks} alt='stonks.png'/>
                     <div className='Home-sections'>
                         <h1>Description:</h1>
                             <p>iBudget is capable of taking into account income and expenses of different amounts and variable frequencies to determine
