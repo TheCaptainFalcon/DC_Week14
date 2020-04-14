@@ -83,7 +83,7 @@ class Calculator extends Component {
                 </label>
                 <input 
                 type='button' 
-                value='-' 
+                value='Remove [-]' 
                 onClick={this.handleRemoveIncome.bind(this, index)}
                 />
                 </fieldset>
@@ -134,7 +134,7 @@ class Calculator extends Component {
                     onChange={this.handleExpenseChange.bind(this, index)} 
                     />
                 </label>
-                <input type='button' value='-' onClick={this.handleRemoveExpense.bind(this, index)}/>
+                <input type='button' value='Remove [-]' onClick={this.handleRemoveExpense.bind(this, index)}/>
             </fieldset>
          </div>          
        ))
@@ -171,15 +171,18 @@ class Calculator extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const addIncomeTotal = this.state.income.reduce((totalAmount, incomeAmount) => 
-        totalAmount + parseInt(incomeAmount.Amount, 10), 0);
+        totalAmount + parseFloat(incomeAmount.Amount, 10), 0);
+
+        const addExpenseTotal = this.state.expense.reduce((totalAmount, expenseAmount) =>
+        totalAmount + parseFloat(expenseAmount.Amount, 10), 0);
 
         this.setState({
-            incomeTotal : addIncomeTotal
+            incomeTotal : addIncomeTotal,
+            expenseTotal: addExpenseTotal
         })
+        // dev test
         console.log(addIncomeTotal);
-
         console.log('Income was submitted: ' + JSON.stringify(this.state.income));
-        // console.log(Object.values(this.state.income))
         console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
     };
   
@@ -187,20 +190,21 @@ class Calculator extends Component {
       return (
         <div className='Calculator'>
             <div className='Calculator-summary'>
-                
-                <p>{this.state.total}</p>
-                <p>{this.state.incomeTotal}</p>
+                <h1>Budget Summary</h1>
+                <p id="Calculator-income-summary">Income: ${this.state.incomeTotal}</p>
+                <p id="Calculator-expense-summary">Expense: $({this.state.expenseTotal})</p>
+                <p id="Calculator-balance-summary">Balance: ${this.state.incomeTotal - this.state.expenseTotal}</p>
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className='Calculator-income'>
                     <h2>Income</h2>
                     {this.incomeForm()}
-                    <input type='button' value='+' onClick={this.handleAddIncome.bind(this)}/>
+                    <input type='button' value='Add [+]' onClick={this.handleAddIncome.bind(this)}/>
                 </div>
                 <div className='Calculator-expense'>   
                     <h2>Expense</h2>
                     {this.expenseForm()}
-                    <input type='button' value='+' onClick={this.handleAddExpense.bind(this)}/>
+                    <input type='button' value='Add [+]' onClick={this.handleAddExpense.bind(this)}/>
                 </div>
                 <input type="submit" value="Calculate" />
             </form>
