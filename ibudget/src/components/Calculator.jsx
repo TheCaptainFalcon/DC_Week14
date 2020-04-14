@@ -170,17 +170,14 @@ class Calculator extends Component {
     
     handleSubmit(event) {
         event.preventDefault();
-        // let total = 0;
-        let total = this.state.incomeTotal;
-        this.state.income.forEach(item => {
-            total += parseInt(item.Amount);
-            // dev test
-            console.log(this.state.total)
-            this.setState(total.Amount)
-            console.log(total)
-            
-            
+        const addIncomeTotal = this.state.income.reduce((totalAmount, incomeAmount) => 
+        totalAmount + parseInt(incomeAmount.Amount, 10), 0);
+
+        this.setState({
+            incomeTotal : addIncomeTotal
         })
+        console.log(addIncomeTotal);
+
         console.log('Income was submitted: ' + JSON.stringify(this.state.income));
         // console.log(Object.values(this.state.income))
         console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
