@@ -171,11 +171,12 @@ class Calculator extends Component {
     handleSubmit(event) {
         event.preventDefault();
         // let total = 0;
-        let total = this.state.income;
-        let totalValue = total.forEach(item => {
+        let total = this.state.incomeTotal;
+        this.state.income.forEach(item => {
             total += parseInt(item.Amount);
             // dev test
             console.log(this.state.total)
+            this.setState(total.Amount)
             console.log(total)
             
             
