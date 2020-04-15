@@ -152,6 +152,20 @@ class Calculator extends Component {
         console.log('Income was submitted: ' + JSON.stringify(this.state.income));
         console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
     };
+
+    handleReset(event) {
+        event.preventDefault();
+        this.setState({
+            incomeTotal: 0,
+            expenseTotal: 0,
+            income: [
+                {Name: "", Description: "", Amount:''}
+            ],
+            expense: [
+                { Name:'', Description:'', Amount:''}
+            ]
+        });
+    };
   
     render() {
       return (
@@ -199,6 +213,9 @@ class Calculator extends Component {
                 </div>
                 <input type="submit" value="Calculate" />
             </form>
+            <form onSubmit={this.handleReset.bind(this)}>
+                <input type="submit" value="Reset"/>
+            </form> 
         </div>
       );
     }
