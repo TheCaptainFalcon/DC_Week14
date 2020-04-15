@@ -2,3 +2,35 @@
     display: flex;
     justify-content: space-around;
 }
+
+.formFieldset {
+    border: 1px solid;
+}
+
+.formLegend {
+    margin: 10px;
+    width: 15px;
+}
+
+.Calculator {
+    margin: 3% 10%;
+}
+
+.Calculator-summary{
+    margin-bottom: 5%;
+}
+
+.analysis {
+    margin-bottom: 5%
+}
+
+.Calculator-summary h1, .analysis h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.Card-summary h4, h3 {
+    display: flex;
+    justify-content: center;
+}
+

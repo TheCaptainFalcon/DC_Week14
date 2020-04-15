@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/Calculator.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Card, CardDeck } from 'react-bootstrap';
 
 class Calculator extends Component {
     constructor(props) {
@@ -33,8 +33,8 @@ class Calculator extends Component {
     incomeForm(){
        return this.state.income.map((element, index) => (
          <div className="Calculator-income" key={index}>
-            <fieldset>
-                <legend>{index}</legend>
+            <fieldset className='formFieldset'>
+                <legend className='formLegend'>{index}</legend>
                 <label>Name    
                     <input 
                     type="text"
@@ -74,8 +74,8 @@ class Calculator extends Component {
     expenseForm(){
        return this.state.expense.map((element, index) => (
          <div key={index}>
-            <fieldset>
-                <legend>{index}</legend>
+            <fieldset className='formFieldset'>
+                <legend className='formLegend'>{index}</legend>
                 <label>Name
                 <input 
                     type="text"
@@ -144,13 +144,16 @@ class Calculator extends Component {
 
         const addExpenseTotal = this.state.expense.reduce((totalAmount, expenseAmount) =>
         totalAmount + parseFloat(expenseAmount.Amount, 10), 0);
+        
+        const roundedIncomeTotal = Math.round((addIncomeTotal + Number.EPSILON) * 100) / 100
+        const roundedExpenseTotal = Math.round((addExpenseTotal + Number.EPSILON) * 100) / 100
 
         this.setState({
-            incomeTotal : addIncomeTotal,
-            expenseTotal: addExpenseTotal
+            incomeTotal : roundedIncomeTotal,
+            expenseTotal: roundedExpenseTotal
         })
         // dev test
-        console.log(addIncomeTotal);
+        console.log(roundedIncomeTotal);
         console.log('Income was submitted: ' + JSON.stringify(this.state.income));
         console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
     };
@@ -173,34 +176,64 @@ class Calculator extends Component {
       return (
         <div className='Calculator'>
             <div className='Calculator-summary'>
-                <h1>Monthly Budget Summary</h1>
-                <p id="Calculator-income-summary">Income: ${this.state.incomeTotal}</p>
-                <p id="Calculator-expense-summary">Expense: $({this.state.expenseTotal})</p>
-                <p id="Calculator-balance-summary">Balance: ${this.state.incomeTotal - this.state.expenseTotal}</p>
+                <h1>Monthly Summary</h1>
+                <CardDeck>
+                    <Card className='Card-summary'>
+                        <Card.Body>
+                        <Card.Title><h4>Income</h4></Card.Title>
+                        <Card.Text>
+                            <h3>${this.state.incomeTotal}</h3>
+                        </Card.Text>
+                        </Card.Body>
+                        
+                    </Card>
+                    <Card className='Card-summary'>
+                        <Card.Body>
+                        <Card.Title><h4>Balance</h4></Card.Title>
+                        <Card.Text>
+                            <h3>${this.state.incomeTotal - this.state.expenseTotal}</h3>
+                        </Card.Text>
+                        </Card.Body>
+                        
+                    </Card>
+                    <Card className='Card-summary'>
+                        <Card.Body>
+                        <Card.Title><h4>Expense</h4></Card.Title>
+                        <Card.Text>
+                            <h3>$({this.state.expenseTotal})</h3>
+                        </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </CardDeck>
             </div>
-            <div className='Calculator-summary-analysis'>
+            <div className='analysis'>
                 <h1>Budget Analysis</h1>
                 <Tabs defaultActiveKey="start" id="Budget-analysis">
                     <Tab eventKey="start" title="Start">
+                        <br/>
                        <p>To get started, enter your monthly income and/or expense data and press the "Calculate" button.</p>
                        <p>You can then view the in-depth data breakdown based on the various tabs.</p>
                     </Tab>
                     <Tab eventKey="daily" title="Daily">
+                        <br/>
                         <p>Daily Income: ${this.state.incomeTotal/30}</p>
                         <p>Daily Expense: $({this.state.expenseTotal/30})</p>
                         <p>Daily Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/30}</p>
                     </Tab>
                     <Tab eventKey="weekly" title="Weekly">
+                        <br/>
                         <p>Weekly Income: ${this.state.incomeTotal/4}</p>
                         <p>Weekly Expense: $({this.state.expenseTotal/4})</p>
                         <p>Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/4}</p>
                     </Tab>
                     <Tab eventKey="biweekly" title="Bi-Weekly">
+                        <br/>
                         <p>Bi-Weekly Income: ${this.state.incomeTotal/2}</p>
                         <p>Bi-Weekly Expense: $({this.state.expenseTotal/2})</p>
                         <p>Bi-Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/2}</p>
                     </Tab>
                     <Tab eventKey="annual" title="Annual">
+                        <br/>
                         <p>Annual Income: ${this.state.incomeTotal*12}</p>
                         <p>Annual Expense: $({this.state.expenseTotal*12})</p>
                         <p>Annual Balance: ${(this.state.incomeTotal - this.state.expenseTotal)*12}</p>
