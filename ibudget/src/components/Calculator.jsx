@@ -6,10 +6,10 @@ class Calculator extends Component {
       super(props);
       this.state = {
         income: [
-            {Name: "", Description: "", Frequency:'', Amount:''}
+            {Name: "", Description: "", Amount:''}
         ],
         expense: [
-            { Name:'', Description:'', Frequency:'', Amount:''}
+            { Name:'', Description:'', Amount:''}
         ],
         incomeTotal: 0,
         expenseTotal: 0
@@ -22,24 +22,11 @@ class Calculator extends Component {
           ))
     }
 
-    // handleIncomeFrequency = (event) => {
-    //     this.setState({
-    //         Frequency: event.target.value
-    //     })
-    // }
-
     handleAddExpense(){
       this.setState(prevState => (
           { expense: [...prevState.expense, { Name: "", Description: "", Frequency:'', Amount:''}]}
           ))
     }
-
-    // Either need to assign as state separate from whole data set or implement within
-    // handleExpenseFrequency(){
-    //     this.setState(prevState => (
-    //          { expense: [...prevState.expense, { Frequency:'' }]}
-    //     ))
-    // }
     
     incomeForm(){
        return this.state.income.map((element, index) => (
@@ -61,14 +48,6 @@ class Calculator extends Component {
                     name="Description" 
                     placeholder="Description" 
                     value={element.Description ||''} 
-                    onChange={this.handleIncomeChange.bind(this, index)} 
-                    />
-                </label>
-                <label>Frequency
-                    <input 
-                    placeholder="Frequency" 
-                    name="Frequency" 
-                    value={element.Frequency ||''} 
                     onChange={this.handleIncomeChange.bind(this, index)} 
                     />
                 </label>
@@ -110,18 +89,6 @@ class Calculator extends Component {
                     name="Description" 
                     placeholder="Description" 
                     value={element.Description ||''} 
-                    onChange={this.handleExpenseChange.bind(this, index)} 
-                    />
-                </label>
-                <label>Frequency
-                    {/* <select onChange={this.handleExpenseChange.bind(this, index)}>
-                        <option value='daily'>Daily</option>
-                        <option value='weekly'>Weekly</option>
-                    </select> */}
-                    <input 
-                    placeholder="Frequency" 
-                    name="Frequency" 
-                    value={element.Frequency ||''} 
                     onChange={this.handleExpenseChange.bind(this, index)} 
                     />
                 </label>
@@ -190,10 +157,34 @@ class Calculator extends Component {
       return (
         <div className='Calculator'>
             <div className='Calculator-summary'>
-                <h1>Budget Summary</h1>
+                <h1>Monthly Budget Summary</h1>
                 <p id="Calculator-income-summary">Income: ${this.state.incomeTotal}</p>
                 <p id="Calculator-expense-summary">Expense: $({this.state.expenseTotal})</p>
                 <p id="Calculator-balance-summary">Balance: ${this.state.incomeTotal - this.state.expenseTotal}</p>
+            </div>
+            <div className='Calculator-summary-analysis'>
+                <h1>Budget Analysis</h1>
+                {/* tab Daily */}
+                <p>Daily Income: ${this.state.incomeTotal/30}</p>
+                <p>Daily Expense: $({this.state.expenseTotal/30})</p>
+                <p>Daily Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/30}</p>
+
+                {/* tab Weekly */}
+                <p>Weekly Income: ${this.state.incomeTotal/4}</p>
+                <p>Weekly Expense: $({this.state.expenseTotal/4})</p>
+                <p>Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/4}</p>
+
+                {/* tab bi-weekly */}
+                <p>Bi-Weekly Income: ${this.state.incomeTotal/2}</p>
+                <p>Bi-Weekly Expense: $({this.state.expenseTotal/2})</p>
+                <p>Bi-Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/2}</p>
+
+                {/* tab annually */}
+                <p>Annual Income: ${this.state.incomeTotal*12}</p>
+                <p>Annual Expense: $({this.state.expenseTotal*12})</p>
+                <p>Annual Balance: ${(this.state.incomeTotal - this.state.expenseTotal)*12}</p>
+               
+
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className='Calculator-income'>
