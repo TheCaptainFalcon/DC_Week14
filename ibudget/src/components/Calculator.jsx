@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './css/Calculator.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Tabs, Tab } from 'react-bootstrap';
 
 class Calculator extends Component {
     constructor(props) {
@@ -18,13 +20,13 @@ class Calculator extends Component {
     
     handleAddIncome(){
       this.setState(prevState => (
-          { income: [...prevState.income, { Name: "", Description: "", Frequency:'', Amount:''}]}
+          { income: [...prevState.income, { Name: "", Description: "", Amount:''}]}
           ))
     }
 
     handleAddExpense(){
       this.setState(prevState => (
-          { expense: [...prevState.expense, { Name: "", Description: "", Frequency:'', Amount:''}]}
+          { expense: [...prevState.expense, { Name: "", Description: "", Amount:''}]}
           ))
     }
     
@@ -178,27 +180,32 @@ class Calculator extends Component {
             </div>
             <div className='Calculator-summary-analysis'>
                 <h1>Budget Analysis</h1>
-                {/* tab Daily */}
-                <p>Daily Income: ${this.state.incomeTotal/30}</p>
-                <p>Daily Expense: $({this.state.expenseTotal/30})</p>
-                <p>Daily Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/30}</p>
-
-                {/* tab Weekly */}
-                <p>Weekly Income: ${this.state.incomeTotal/4}</p>
-                <p>Weekly Expense: $({this.state.expenseTotal/4})</p>
-                <p>Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/4}</p>
-
-                {/* tab bi-weekly */}
-                <p>Bi-Weekly Income: ${this.state.incomeTotal/2}</p>
-                <p>Bi-Weekly Expense: $({this.state.expenseTotal/2})</p>
-                <p>Bi-Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/2}</p>
-
-                {/* tab annually */}
-                <p>Annual Income: ${this.state.incomeTotal*12}</p>
-                <p>Annual Expense: $({this.state.expenseTotal*12})</p>
-                <p>Annual Balance: ${(this.state.incomeTotal - this.state.expenseTotal)*12}</p>
-               
-
+                <Tabs defaultActiveKey="start" id="Budget-analysis">
+                    <Tab eventKey="start" title="Start">
+                       <p>To get started, enter your monthly income and/or expense data and press the "Calculate" button.</p>
+                       <p>You can then view the in-depth data breakdown based on the various tabs.</p>
+                    </Tab>
+                    <Tab eventKey="daily" title="Daily">
+                        <p>Daily Income: ${this.state.incomeTotal/30}</p>
+                        <p>Daily Expense: $({this.state.expenseTotal/30})</p>
+                        <p>Daily Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/30}</p>
+                    </Tab>
+                    <Tab eventKey="weekly" title="Weekly">
+                        <p>Weekly Income: ${this.state.incomeTotal/4}</p>
+                        <p>Weekly Expense: $({this.state.expenseTotal/4})</p>
+                        <p>Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/4}</p>
+                    </Tab>
+                    <Tab eventKey="biweekly" title="Bi-Weekly">
+                        <p>Bi-Weekly Income: ${this.state.incomeTotal/2}</p>
+                        <p>Bi-Weekly Expense: $({this.state.expenseTotal/2})</p>
+                        <p>Bi-Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/2}</p>
+                    </Tab>
+                    <Tab eventKey="annual" title="Annual">
+                        <p>Annual Income: ${this.state.incomeTotal*12}</p>
+                        <p>Annual Expense: $({this.state.expenseTotal*12})</p>
+                        <p>Annual Balance: ${(this.state.incomeTotal - this.state.expenseTotal)*12}</p>
+                    </Tab>
+                </Tabs>
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className='Calculator-income'>
