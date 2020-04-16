@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
 import './css/Calculator.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Tabs, Tab, Card, CardDeck } from 'react-bootstrap';
+import { Tabs, Tab, Card, CardDeck} from 'react-bootstrap';
+import PieChart from 'react-minimal-pie-chart';
 
 class Calculator extends Component {
     constructor(props) {
       super(props);
       this.state = {
         income: [
-            {Name: "", Description: "", Amount:''}
+            {Name: "", Description: "", Amount:""}
         ],
         expense: [
-            { Name:'', Description:'', Amount:''}
+            { Name:"", Description:"", Amount:""}
         ],
         incomeTotal: 0,
-        expenseTotal: 0
+        expenseTotal: 0,
+        incomeDaily: 0,
+        incomeWeekly: 0,
+        incomeBiWeekly: 0,
+        incomeAnnually: 0,
+        expenseDaily: 0,
+        expenseWeekly: 0,
+        expenseBiWeekly: 0,
+        expenseAnnually: 0,
+        balanceDaily: 0,
+        balanceWeekly: 0,
+        balanceBiWeekly: 0,
+        balanceAnnually: 0,
+        balanceTotal: 0,
+        incomeAmount: [{Amount: ""}]
       };
     }
     
@@ -33,7 +48,14 @@ class Calculator extends Component {
     incomeForm(){
        return this.state.income.map((element, index) => (
          <div className="Calculator-income" key={index}>
+             
             <fieldset className='formFieldset'>
+                <input
+                className='deleteForm' 
+                type='button' 
+                value='X' 
+                onClick={this.handleRemoveIncome.bind(this, index)}
+                />
                 <legend className='formLegend'>{index}</legend>
                 <label>Name    
                     <input 
@@ -62,11 +84,11 @@ class Calculator extends Component {
                     onChange={this.handleIncomeChange.bind(this, index)} 
                     />
                 </label>
-                <input 
+                {/* <input 
                 type='button' 
                 value='Remove [-]' 
                 onClick={this.handleRemoveIncome.bind(this, index)}
-                />
+                /> */}
                 </fieldset>
             </div>          
         ))
@@ -75,6 +97,7 @@ class Calculator extends Component {
        return this.state.expense.map((element, index) => (
          <div key={index}>
             <fieldset className='formFieldset'>
+            <input className='deleteForm' type='button' value='X' onClick={this.handleRemoveExpense.bind(this, index)}/>
                 <legend className='formLegend'>{index}</legend>
                 <label>Name
                 <input 
@@ -103,7 +126,6 @@ class Calculator extends Component {
                     onChange={this.handleExpenseChange.bind(this, index)} 
                     />
                 </label>
-                <input type='button' value='Remove [-]' onClick={this.handleRemoveExpense.bind(this, index)}/>
             </fieldset>
          </div>          
        ))
@@ -145,31 +167,112 @@ class Calculator extends Component {
         const addExpenseTotal = this.state.expense.reduce((totalAmount, expenseAmount) =>
         totalAmount + parseFloat(expenseAmount.Amount, 10), 0);
         
+
+
+        // const newArray = this.state.income.filter(function (el) {
+        //     return parseInt(el.Name && el.Description && el.Amount)
+        //   });
+        // this.setState({
+        //     incomeSummary : newArray
+        // })
+
+        // let lastKey = Object.keys(this.state.income).pop()
+        // let lastValue = this.state.income[Object.keys(this.state.income).pop()]
+        // console.log(lastValue)
+    
+        // let incomeArr = Object.values(this.state.income)[0].Amount
+        // console.log(incomeArr)
+                        
+
         const roundedIncomeTotal = Math.round((addIncomeTotal + Number.EPSILON) * 100) / 100
+        const roundedIncomeDaily = Math.round(((addIncomeTotal/30) + Number.EPSILON) * 100) / 100
+        const roundedIncomeWeekly = Math.round(((addIncomeTotal/4) + Number.EPSILON) * 100) / 100
+        const roundedIncomeBiWeekly = Math.round(((addIncomeTotal/2) + Number.EPSILON) * 100) / 100
+        const roundedIncomeAnnually = Math.round(((addIncomeTotal*12) + Number.EPSILON) * 100) / 100
         const roundedExpenseTotal = Math.round((addExpenseTotal + Number.EPSILON) * 100) / 100
+        const roundedExpenseDaily = Math.round(((addExpenseTotal/30) + Number.EPSILON) * 100) / 100
+        const roundedExpenseWeekly = Math.round(((addExpenseTotal/4) + Number.EPSILON) * 100) / 100
+        const roundedExpenseBiWeekly = Math.round(((addExpenseTotal/2) + Number.EPSILON) * 100) / 100
+        const roundedExpenseAnnually = Math.round(((addExpenseTotal*12) + Number.EPSILON) * 100) / 100
+        const roundedBalanceDaily = Math.round((((addIncomeTotal - addExpenseTotal)/30) + Number.EPSILON) * 100) /100
+        const roundedBalanceWeekly = Math.round((((addIncomeTotal - addExpenseTotal)/4) + Number.EPSILON) * 100) /100
+        const roundedBalanceBiWeekly = Math.round((((addIncomeTotal - addExpenseTotal)/2) + Number.EPSILON) * 100) /100
+        const roundedBalanceAnnually = Math.round((((addIncomeTotal - addExpenseTotal)*12) + Number.EPSILON) * 100) /100
+        const roundedBalanceTotal = Math.round(((addIncomeTotal - addExpenseTotal) + Number.EPSILON) * 100) / 100
+        
 
         this.setState({
             incomeTotal : roundedIncomeTotal,
-            expenseTotal: roundedExpenseTotal
+            expenseTotal: roundedExpenseTotal,
+            incomeDaily : roundedIncomeDaily,
+            incomeWeekly : roundedIncomeWeekly,
+            incomeBiWeekly : roundedIncomeBiWeekly,
+            incomeAnnually : roundedIncomeAnnually,
+            expenseDaily : roundedExpenseDaily,
+            expenseWeekly : roundedExpenseWeekly,
+            expenseBiWeekly : roundedExpenseBiWeekly,
+            expenseAnnually : roundedExpenseAnnually,
+            balanceDaily : roundedBalanceDaily,
+            balanceWeekly : roundedBalanceWeekly,
+            balanceBiWeekly : roundedBalanceBiWeekly,
+            balanceAnnually : roundedBalanceAnnually,
+            balanceTotal : roundedBalanceTotal
         })
         // dev test
-        console.log(roundedIncomeTotal);
-        console.log('Income was submitted: ' + JSON.stringify(this.state.income));
-        console.log('Expense was submitted: ' + JSON.stringify(this.state.expense));
+        // scrap work for manipulating object -> array
+        let newIncomeAmountValue = [];
+        this.state.income.forEach(function(element, index) {
+            console.log('Index '+ index);
+            console.log(element)
+        
+            Object.keys(element).forEach(function(prop) {    
+                if (prop === "Amount") {
+                    newIncomeAmountValue.push(element[prop])
+                }
+                console.log(newIncomeAmountValue)
+                console.log(typeof(newIncomeAmountValue))
+                newIncomeAmountValue.forEach(function(item, index) {
+                    console.log("Amount: $" + item)
+                    
+                })
+               
+                // console.log(prop + ": " + message[prop]);
+                // console.log(index)
+            });
+        });
+        // this.state.expense.forEach(function(message, index) {
+        //     console.log('Index '+ index);
+        //     Object.keys(message).forEach(function(prop) {    
+        //         console.log(prop + ": " + message[prop] );
+        //     });
+        // });
     };
 
     handleReset(event) {
         event.preventDefault();
         this.setState({
-            incomeTotal: 0,
-            expenseTotal: 0,
             income: [
                 {Name: "", Description: "", Amount:''}
             ],
             expense: [
                 { Name:'', Description:'', Amount:''}
-            ]
-        });
+            ],
+            incomeTotal: 0,
+            expenseTotal: 0,
+            incomeDaily: 0,
+            incomeWeekly: 0,
+            incomeBiWeekly: 0,
+            incomeAnnually: 0,
+            expenseDaily: 0,
+            expenseWeekly: 0,
+            expenseBiWeekly: 0,
+            expenseAnnually: 0,
+            balanceDaily: 0,
+            balanceWeekly: 0,
+            balanceBiWeekly: 0,
+            balanceAnnually: 0,
+            balanceTotal: 0,
+            });
     };
   
     render() {
@@ -180,27 +283,27 @@ class Calculator extends Component {
                 <CardDeck>
                     <Card className='Card-summary'>
                         <Card.Body>
-                        <Card.Title><h4>Income</h4></Card.Title>
+                        <Card.Title>Income</Card.Title>
                         <Card.Text>
-                            <h3>${this.state.incomeTotal}</h3>
+                            ${this.state.incomeTotal}
                         </Card.Text>
                         </Card.Body>
                         
                     </Card>
                     <Card className='Card-summary'>
                         <Card.Body>
-                        <Card.Title><h4>Balance</h4></Card.Title>
+                        <Card.Title>Balance</Card.Title>
                         <Card.Text>
-                            <h3>${this.state.incomeTotal - this.state.expenseTotal}</h3>
+                            ${this.state.balanceTotal}
                         </Card.Text>
                         </Card.Body>
                         
                     </Card>
                     <Card className='Card-summary'>
                         <Card.Body>
-                        <Card.Title><h4>Expense</h4></Card.Title>
+                        <Card.Title>Expense</Card.Title>
                         <Card.Text>
-                            <h3>$({this.state.expenseTotal})</h3>
+                            $({this.state.expenseTotal})
                         </Card.Text>
                         </Card.Body>
                     </Card>
@@ -213,49 +316,381 @@ class Calculator extends Component {
                         <br/>
                        <p>To get started, enter your monthly income and/or expense data and press the "Calculate" button.</p>
                        <p>You can then view the in-depth data breakdown based on the various tabs.</p>
+                       <p>If you need to start over, there are X's to remove the unneeded fields and a "Reset" button to start over.</p>
                     </Tab>
                     <Tab eventKey="daily" title="Daily">
                         <br/>
-                        <p>Daily Income: ${this.state.incomeTotal/30}</p>
-                        <p>Daily Expense: $({this.state.expenseTotal/30})</p>
-                        <p>Daily Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/30}</p>
+                        <CardDeck>
+                            <Card className='Card-analysis'>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Daily Income</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.incomeDaily}
+                                        </Card.Text>
+                                    <Card.Title>Daily Income (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.incomeDaily/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Daily Expense</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.expenseDaily}
+                                        </Card.Text>
+                                    <Card.Title>Daily Expense (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.expenseDaily/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Daily Balance</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.balanceDaily}
+                                        </Card.Text>
+                                    <Card.Title>Daily Balance (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.balanceDaily/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                            </Card>
+                            <Card className='Card-analysis'>
+                                <Card.Body>
+                                <PieChart
+                                    radius={50}
+                                    cx={50}
+                                    cy={50}
+                                    data={[
+                                        { title: 'Balance', value: (this.state.incomeTotal/30), color: '#00C851' },
+                                        { title: 'Expense', value: (this.state.expenseTotal/30), color: '#ff4444' }
+                                    ]}
+                                    label={({data, dataIndex}) => 
+                                    Math.round(data[dataIndex].percentage) +'%'} 
+                                    labelStyle={{fontSize: '5px', fontFamily: 'sans-serif', fill: '#121212'}}
+                                />
+                                </Card.Body>
+                            </Card>
+                        </CardDeck>
+                        <CardDeck id='history-cardDeck'>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Income History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.income, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Expense History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.expense, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        </CardDeck>
+                        
+                        {/* scrap work */}
+                        {/* (<p>{JSON.stringify(this.state.income, null, 4).replace(/[\[\]\{\}]+/g, '') }</p>) */}
+                        
+                        {/* + ' ->' + ((this.state.incomeTotal)/30) }</p>) */}
+                        {/* <p>{this.state.incomeSummary}</p> */}
+                        
+                        {/* {Object.values(this.state.income).forEach((item, index) =>
+                            
+                            {Object.values(item).forEach(value => <p>{'Amount: $' + value /4}</p>)}
+
+                        )}             */}
+                                  
+                        {/* {Object.values(this.state.income).forEach(([item, index]) =>{
+                            console.log(item);
+                            console.log(index)
+                            
+                        })}*/}
+
+                        {/* {Object.entries(this.state.income).map(([key, index]) => 
+                        {Object.entries(index).map(value => <p>{key} {value}</p>)})}
+
+                        {Object.entries(this.state.income).forEach((item, index) =>
+                        {Object.entries(item).forEach(value => <p>{value} {item[value]}{value[item]}</p>)})}
+ */}
+
                     </Tab>
                     <Tab eventKey="weekly" title="Weekly">
                         <br/>
-                        <p>Weekly Income: ${this.state.incomeTotal/4}</p>
-                        <p>Weekly Expense: $({this.state.expenseTotal/4})</p>
-                        <p>Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/4}</p>
+                        <CardDeck>
+                            <Card className='Card-analysis'>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Weekly Income</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.incomeWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Weekly Income (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.incomeWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Weekly Expense</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.expenseWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Weekly Expense (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.expenseWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Weekly Balance</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.balanceWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Weekly Balance (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.balanceWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                            </Card>
+                            <Card className='Card-analysis'>
+                                <Card.Body>
+                                <PieChart
+                                    radius={50}
+                                    cx={50}
+                                    cy={50}
+                                    data={[
+                                        { title: 'Balance', value: (this.state.incomeTotal/30), color: '#00C851' },
+                                        { title: 'Expense', value: (this.state.expenseTotal/30), color: '#ff4444' }
+                                    ]}
+                                    label={({data, dataIndex}) => 
+                                    Math.round(data[dataIndex].percentage) +'%'} 
+                                    labelStyle={{fontSize: '5px', fontFamily: 'sans-serif', fill: '#121212'}}
+                                />
+                                </Card.Body>
+                            </Card>
+                        </CardDeck>
+                        <CardDeck id='history-cardDeck'>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Income History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.income, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Expense History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.expense, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        </CardDeck>
                     </Tab>
                     <Tab eventKey="biweekly" title="Bi-Weekly">
                         <br/>
-                        <p>Bi-Weekly Income: ${this.state.incomeTotal/2}</p>
-                        <p>Bi-Weekly Expense: $({this.state.expenseTotal/2})</p>
-                        <p>Bi-Weekly Balance: ${(this.state.incomeTotal - this.state.expenseTotal)/2}</p>
+                        <CardDeck>
+                            <Card className='Card-analysis'>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Bi-Weekly Income</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.incomeBiWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Bi-Weekly Income (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.incomeBiWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Bi-Weekly Expense</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.expenseBiWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Bi-Weekly Expense (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.expenseBiWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Bi-Weekly Balance</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.balanceBiWeekly}
+                                        </Card.Text>
+                                    <Card.Title>Bi-Weekly Balance (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.balanceBiWeekly/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                            </Card>
+                            <Card className='Card-analysis'>
+                                <Card.Body>
+                                <PieChart
+                                    radius={50}
+                                    cx={50}
+                                    cy={50}
+                                    data={[
+                                        { title: 'Balance', value: (this.state.incomeTotal/30), color: '#00C851' },
+                                        { title: 'Expense', value: (this.state.expenseTotal/30), color: '#ff4444' }
+                                    ]}
+                                    label={({data, dataIndex}) => 
+                                    Math.round(data[dataIndex].percentage) +'%'} 
+                                    labelStyle={{fontSize: '5px', fontFamily: 'sans-serif', fill: '#121212'}}
+                                />
+                                </Card.Body>
+                            </Card>
+                        </CardDeck>
+                        <CardDeck id='history-cardDeck'>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Income History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.income, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Expense History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.expense, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        </CardDeck>
                     </Tab>
                     <Tab eventKey="annual" title="Annual">
                         <br/>
-                        <p>Annual Income: ${this.state.incomeTotal*12}</p>
-                        <p>Annual Expense: $({this.state.expenseTotal*12})</p>
-                        <p>Annual Balance: ${(this.state.incomeTotal - this.state.expenseTotal)*12}</p>
+                        <CardDeck>
+                            <Card className='Card-analysis'>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Annual Income</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.incomeAnnually}
+                                        </Card.Text>
+                                    <Card.Title>Annual Income (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.incomeAnnually/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Annual Expense</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.expenseAnnually}
+                                        </Card.Text>
+                                    <Card.Title>Annual Expense (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.expenseAnnually/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                                <Card>
+                                <Card.Body>
+                                    <Card.Title>Annual Balance</Card.Title>
+                                        <Card.Text>
+                                            ${this.state.balanceAnnually}
+                                        </Card.Text>
+                                    <Card.Title>Annual Balance (%)</Card.Title>
+                                        <Card.Text>
+                                            {this.state.balanceAnnually/100}%
+                                        </Card.Text>
+                                </Card.Body>
+                                </Card>
+                            </Card>
+                            <Card className='Card-analysis'>
+                                <Card.Body>
+                                <PieChart
+                                    radius={50}
+                                    cx={50}
+                                    cy={50}
+                                    data={[
+                                        { title: 'Balance', value: (this.state.incomeTotal/30), color: '#00C851' },
+                                        { title: 'Expense', value: (this.state.expenseTotal/30), color: '#ff4444' }
+                                    ]}
+                                    label={({data, dataIndex}) => 
+                                    Math.round(data[dataIndex].percentage) +'%'} 
+                                    labelStyle={{fontSize: '5px', fontFamily: 'sans-serif', fill: '#121212'}}
+                                />
+                                </Card.Body>
+                            </Card>
+                        </CardDeck>
+                        <CardDeck id='history-cardDeck'>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Income History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.income, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        <Card className='Card-analysis-history'>
+                                <Card.Body>
+                                <Card.Title>Expense History</Card.Title>
+                                    <Card.Text>
+                                        {JSON.stringify(this.state.expense, null, "\t").replace(/[\[\]\{\}/\"/\,/]+/g, '') }
+                                    </Card.Text>
+                                </Card.Body>
+                            
+                            </Card>
+                        </CardDeck>
                     </Tab>
                 </Tabs>
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className='Calculator-income'>
                     <h2>Income</h2>
+                    <input className='income-add' type='button' value='+' onClick={this.handleAddIncome.bind(this)}/>
+                    <div className='income-content'>
                     {this.incomeForm()}
-                    <input type='button' value='Add [+]' onClick={this.handleAddIncome.bind(this)}/>
+                    </div>
+                    
                 </div>
                 <div className='Calculator-expense'>   
                     <h2>Expense</h2>
+                    <input className='expense-add' type='button' value='+' onClick={this.handleAddExpense.bind(this)}/>
+                    <div className='expense-content'>
                     {this.expenseForm()}
-                    <input type='button' value='Add [+]' onClick={this.handleAddExpense.bind(this)}/>
+                    </div>
                 </div>
-                <input type="submit" value="Calculate" />
             </form>
+            
+            <form onSubmit={this.handleSubmit.bind(this)}>
+            <div id='calc' className='calcReset'>
+                    <button>Calculate</button>
+                </div>
+           </form>
             <form onSubmit={this.handleReset.bind(this)}>
-                <input type="submit" value="Reset"/>
+            <div id='reset' className='calcReset'>
+                <button>Reset</button>
+            </div>
             </form> 
+            
         </div>
       );
     }

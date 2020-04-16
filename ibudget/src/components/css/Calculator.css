@@ -34,3 +34,46 @@
     justify-content: center;
 }
 
+.Calculator-income h2, .Calculator-expense h2, .Calculator-income input, .Calculator-expense input {
+    display: flex;
+    justify-content: center;
+}
+
+.income-content, .expense-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 3%;
+}
+
+#calc{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    left:35%;
+    margin-top: 2%;
+    margin-bottom: 3%
+}
+
+#reset{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    right: 35%;
+    margin-top: 2%;
+    margin-bottom: 3%
+}
+
+.deleteForm {
+    margin: auto 92%;
+    padding: 1%;
+    
+}
+
+.Card-analysis-history{
+    margin: 2%;
+}
+
+#history-cardDeck {
+    
+}
