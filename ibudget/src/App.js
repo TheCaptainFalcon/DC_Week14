@@ -12,18 +12,9 @@ function App() {
     <div className="App">
       <Router>
         <Navbar className='App-nav' bg="dark" variant="dark">
-          <Navbar.Brand href="#home">
-            <img
-              alt=""
-              src="/logo.svg"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            <Nav.Link><NavLink activeClassName='active-link' exact={true} to='/'>Home</NavLink></Nav.Link>
-            <Nav.Link> <NavLink activeClassName='active-link' to='/calculator'>Calculator</NavLink></Nav.Link>
-          </Navbar.Brand>
-        </Navbar>
+            <Nav.Link><NavLink className='link' activeClassName='active-link' exact={true} to='/'>Home</NavLink></Nav.Link>
+            <Nav.Link> <NavLink className='link' activeClassName='active-link' to='/calculator'>Calculator</NavLink></Nav.Link>
+         </Navbar>
         <Switch>
           <Route exact path='/' component={ Home } />
           <Route exact path ='/calculator' component={ Calculator } />

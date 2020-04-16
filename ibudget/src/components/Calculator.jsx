@@ -84,11 +84,6 @@ class Calculator extends Component {
                     onChange={this.handleIncomeChange.bind(this, index)} 
                     />
                 </label>
-                {/* <input 
-                type='button' 
-                value='Remove [-]' 
-                onClick={this.handleRemoveIncome.bind(this, index)}
-                /> */}
                 </fieldset>
             </div>          
         ))
@@ -136,16 +131,12 @@ class Calculator extends Component {
         let income = [...this.state.income];
         income[i] = {...income[i], [name]: value};
         this.setState({ income });
-        //dev test
-        console.log(this.state.income)
     }
     handleExpenseChange(i, e) {
         const { name, value } = e.target;
         let expense = [...this.state.expense];
         expense[i] = {...expense[i], [name]: value};
         this.setState({ expense });
-        //dev test
-        console.log(this.state.income)
     }
     
     handleRemoveIncome(i){
@@ -165,24 +156,7 @@ class Calculator extends Component {
         totalAmount + parseFloat(incomeAmount.Amount, 10), 0);
 
         const addExpenseTotal = this.state.expense.reduce((totalAmount, expenseAmount) =>
-        totalAmount + parseFloat(expenseAmount.Amount, 10), 0);
-        
-
-
-        // const newArray = this.state.income.filter(function (el) {
-        //     return parseInt(el.Name && el.Description && el.Amount)
-        //   });
-        // this.setState({
-        //     incomeSummary : newArray
-        // })
-
-        // let lastKey = Object.keys(this.state.income).pop()
-        // let lastValue = this.state.income[Object.keys(this.state.income).pop()]
-        // console.log(lastValue)
-    
-        // let incomeArr = Object.values(this.state.income)[0].Amount
-        // console.log(incomeArr)
-                        
+        totalAmount + parseFloat(expenseAmount.Amount, 10), 0);             
 
         const roundedIncomeTotal = Math.round((addIncomeTotal + Number.EPSILON) * 100) / 100
         const roundedIncomeDaily = Math.round(((addIncomeTotal/30) + Number.EPSILON) * 100) / 100
@@ -200,7 +174,6 @@ class Calculator extends Component {
         const roundedBalanceAnnually = Math.round((((addIncomeTotal - addExpenseTotal)*12) + Number.EPSILON) * 100) /100
         const roundedBalanceTotal = Math.round(((addIncomeTotal - addExpenseTotal) + Number.EPSILON) * 100) / 100
         
-
         this.setState({
             incomeTotal : roundedIncomeTotal,
             expenseTotal: roundedExpenseTotal,
@@ -218,34 +191,6 @@ class Calculator extends Component {
             balanceAnnually : roundedBalanceAnnually,
             balanceTotal : roundedBalanceTotal
         })
-        // dev test
-        // scrap work for manipulating object -> array
-        let newIncomeAmountValue = [];
-        this.state.income.forEach(function(element, index) {
-            console.log('Index '+ index);
-            console.log(element)
-        
-            Object.keys(element).forEach(function(prop) {    
-                if (prop === "Amount") {
-                    newIncomeAmountValue.push(element[prop])
-                }
-                console.log(newIncomeAmountValue)
-                console.log(typeof(newIncomeAmountValue))
-                newIncomeAmountValue.forEach(function(item, index) {
-                    console.log("Amount: $" + item)
-                    
-                })
-               
-                // console.log(prop + ": " + message[prop]);
-                // console.log(index)
-            });
-        });
-        // this.state.expense.forEach(function(message, index) {
-        //     console.log('Index '+ index);
-        //     Object.keys(message).forEach(function(prop) {    
-        //         console.log(prop + ": " + message[prop] );
-        //     });
-        // });
     };
 
     handleReset(event) {
@@ -396,32 +341,6 @@ class Calculator extends Component {
                             
                             </Card>
                         </CardDeck>
-                        
-                        {/* scrap work */}
-                        {/* (<p>{JSON.stringify(this.state.income, null, 4).replace(/[\[\]\{\}]+/g, '') }</p>) */}
-                        
-                        {/* + ' ->' + ((this.state.incomeTotal)/30) }</p>) */}
-                        {/* <p>{this.state.incomeSummary}</p> */}
-                        
-                        {/* {Object.values(this.state.income).forEach((item, index) =>
-                            
-                            {Object.values(item).forEach(value => <p>{'Amount: $' + value /4}</p>)}
-
-                        )}             */}
-                                  
-                        {/* {Object.values(this.state.income).forEach(([item, index]) =>{
-                            console.log(item);
-                            console.log(index)
-                            
-                        })}*/}
-
-                        {/* {Object.entries(this.state.income).map(([key, index]) => 
-                        {Object.entries(index).map(value => <p>{key} {value}</p>)})}
-
-                        {Object.entries(this.state.income).forEach((item, index) =>
-                        {Object.entries(item).forEach(value => <p>{value} {item[value]}{value[item]}</p>)})}
- */}
-
                     </Tab>
                     <Tab eventKey="weekly" title="Weekly">
                         <br/>
