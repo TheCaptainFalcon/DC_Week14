@@ -76,7 +76,8 @@ class Calculator extends Component {
                     />
                 </label>
                 <label>Amount
-                    <input 
+                    <input
+                    id='data-income-add' 
                     type="number"
                     name="Amount" 
                     placeholder="$" 
@@ -114,6 +115,7 @@ class Calculator extends Component {
                 </label>
                 <label>Amount
                     <input 
+                    id='data-expense-add'
                     type="number"
                     name="Amount" 
                     placeholder="$" 
@@ -230,7 +232,7 @@ class Calculator extends Component {
                         <Card className='Card-summary'>
                             <Card.Body>
                             <Card.Title>Income</Card.Title>
-                            <Card.Text>
+                            <Card.Text id='data-income-summary'>
                                 ${this.state.incomeTotal}
                             </Card.Text>
                             </Card.Body>
@@ -239,7 +241,7 @@ class Calculator extends Component {
                         <Card className='Card-summary'>
                             <Card.Body>
                             <Card.Title>Balance</Card.Title>
-                            <Card.Text>
+                            <Card.Text id='data-balance-summary'>
                                 ${this.state.balanceTotal}
                             </Card.Text>
                             </Card.Body>
@@ -248,7 +250,7 @@ class Calculator extends Component {
                         <Card className='Card-summary'>
                             <Card.Body>
                             <Card.Title>Expense</Card.Title>
-                            <Card.Text>
+                            <Card.Text id='data-expense-summary'>
                                 $({this.state.expenseTotal})
                             </Card.Text>
                             </Card.Body>
@@ -264,18 +266,18 @@ class Calculator extends Component {
                         <p>You can then view the in-depth data breakdown based on the various tabs.</p>
                         <p>If you need to start over, there are X's to remove the unneeded fields and a "Reset" button to start over.</p>
                         </Tab>
-                        <Tab eventKey="daily" title="Daily">
+                        <Tab id='data-daily-tab' eventKey="daily" title="Daily">
                             <br/>
                             <CardDeck>
                                 <Card className='Card-analysis'>
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Daily Income</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-daily-income'>
                                                 ${this.state.incomeDaily}
                                             </Card.Text>
                                         <Card.Title>Daily Income (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='daily-income-percentage'>
                                                 {this.state.incomeDaily/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -283,11 +285,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Daily Expense</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-daily-expense'>
                                                 ${this.state.expenseDaily}
                                             </Card.Text>
                                         <Card.Title>Daily Expense (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='daily-expense-percentage'>
                                                 {this.state.expenseDaily/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -295,11 +297,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Daily Balance</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-daily-balance'>
                                                 ${this.state.balanceDaily}
                                             </Card.Text>
                                         <Card.Title>Daily Balance (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='daily-balance-percentage'>
                                                 {this.state.balanceDaily/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -350,11 +352,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Weekly Income</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-weekly-income'>
                                                 ${this.state.incomeWeekly}
                                             </Card.Text>
                                         <Card.Title>Weekly Income (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='weekly-income-percentage'>
                                                 {this.state.incomeWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -362,11 +364,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Weekly Expense</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-weekly-expense'>
                                                 ${this.state.expenseWeekly}
                                             </Card.Text>
                                         <Card.Title>Weekly Expense (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='weekly-expense-percentage'>
                                                 {this.state.expenseWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -374,11 +376,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Weekly Balance</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-weekly-balance'>
                                                 ${this.state.balanceWeekly}
                                             </Card.Text>
                                         <Card.Title>Weekly Balance (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='weekly-balance-percentage'>
                                                 {this.state.balanceWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -429,11 +431,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Bi-Weekly Income</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-biweekly-income'>
                                                 ${this.state.incomeBiWeekly}
                                             </Card.Text>
                                         <Card.Title>Bi-Weekly Income (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='biweekly-income-percentage'>
                                                 {this.state.incomeBiWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -441,11 +443,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Bi-Weekly Expense</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-biweekly-expense'>
                                                 ${this.state.expenseBiWeekly}
                                             </Card.Text>
                                         <Card.Title>Bi-Weekly Expense (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='biweekly-expense-percentage'>
                                                 {this.state.expenseBiWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -453,11 +455,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Bi-Weekly Balance</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-biweekly-balance'>
                                                 ${this.state.balanceBiWeekly}
                                             </Card.Text>
                                         <Card.Title>Bi-Weekly Balance (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='biweekly-balance-percentage'>
                                                 {this.state.balanceBiWeekly/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -508,11 +510,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Annual Income</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-annual-income'>
                                                 ${this.state.incomeAnnually}
                                             </Card.Text>
                                         <Card.Title>Annual Income (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='annual-income-percentage'>
                                                 {this.state.incomeAnnually/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -520,11 +522,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Annual Expense</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-annual-expense'>
                                                 ${this.state.expenseAnnually}
                                             </Card.Text>
                                         <Card.Title>Annual Expense (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='annual-expense-percentage'>
                                                 {this.state.expenseAnnually/100}%
                                             </Card.Text>
                                     </Card.Body>
@@ -532,11 +534,11 @@ class Calculator extends Component {
                                     <Card>
                                     <Card.Body>
                                         <Card.Title>Annual Balance</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='data-analysis-annual-balance'>
                                                 ${this.state.balanceAnnually}
                                             </Card.Text>
                                         <Card.Title>Annual Balance (%)</Card.Title>
-                                            <Card.Text>
+                                            <Card.Text id='annual-balance-percentage'>
                                                 {this.state.balanceAnnually/100}%
                                             </Card.Text>
                                     </Card.Body>
