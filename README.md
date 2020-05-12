@@ -2,7 +2,10 @@
 
 See the live demo: <url>
 
+### Main Landing Page
 ![](iBudget-main.gif)
+
+### Calculator Component
 ![](iBudget-calc.gif)
 
 ## Description:
@@ -42,4 +45,5 @@ Cypress was implemented to test the Calculator component and to ensure valid and
 
 I personally found through debugging code that this was an area where invalid data could cause problems in the future and would help to save time as opposed to manually testing each feature.
 
+### Cypress Test
 ![](iBudget-cypress.gif)
