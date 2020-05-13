@@ -1,6 +1,6 @@
 # iBudget
 
-See the live demo: https://ibudget-deploy.web.app/calculator
+See the live demo: https://ibudget-deploy.web.app
 
 ### Main Landing Page
 ![](iBudget-main.gif)
